@@ -1,0 +1,15 @@
+{
+  "name": "sonar-rover-controller",
+  "version": "0.0.1",
+  "description": "Optional micro:bit controller for the MiniBit rover (radio)",
+  "license": "MIT",
+  "dependencies": {
+    "core": "*",
+    "radio": "*"
+  },
+  "files": [
+    "main.ts",
+    "README.md"
+  ],
+  "public": false
+}

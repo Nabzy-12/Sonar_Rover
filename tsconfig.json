@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "lib": ["ES5"],
+    "types": []
+  },
+  "files": ["main.ts", "microbit.d.ts"]
+}

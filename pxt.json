@@ -1,0 +1,16 @@
+{
+  "name": "sonar-rover",
+  "version": "0.0.1",
+  "description": "MiniBit sonar rover (avoid/follow/scan + serial telemetry)",
+  "license": "MIT",
+  "dependencies": {
+    "core": "*",
+    "radio": "*",
+    "minibit": "github:4tronix/MiniBit#v1.1.15"
+  },
+  "files": [
+    "main.ts",
+    "README.md"
+  ],
+  "public": false
+}
