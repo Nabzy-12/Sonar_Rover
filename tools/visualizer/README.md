@@ -1,26 +1,45 @@
-# Sonar Rover Visualizer
+# Sonar Visualizers 📊
 
-Shows a live 2D scatter plot from the rover’s USB serial telemetry.
+Multiple visualization styles for sonar data from the micro:bit rover.
+
+## Visualizers
+
+| Script | Description |
+|--------|-------------|
+| `radar.py` | Classic radar sweep - simple and reliable |
+| `lidar.py` | LIDAR-style point cloud view |
+| `pointcloud.py` | Accumulating 3D point cloud |
+| `depth_scanner.py` | First-person depth view |
+| `visualize.py` | Original simple scatter plot |
 
 ## Setup
 
-Create a venv and install deps:
+```powershell
+# Create virtual environment
+py -m venv .venv
+./.venv/Scripts/Activate.ps1
+pip install -r requirements.txt
+```
 
-- Windows PowerShell:
-  - `py -m venv .venv`
-  - `./.venv/Scripts/Activate.ps1`
-  - `pip install -r requirements.txt`
+## Usage
 
-## Run
+```powershell
+# Radar view (recommended)
+python radar.py --port COM3
 
-- Auto-detect port:
-  - `python visualize.py`
+# LIDAR point cloud
+python lidar.py --port COM3
 
-- Or specify port:
-  - `python visualize.py --port COM5`
+# 3D point cloud builder  
+python pointcloud.py --port COM3
 
-## Expected rover output
+# Demo mode (no hardware)
+python radar.py --demo
+```
 
-The rover firmware streams newline-delimited JSON like:
+## Serial Format
 
-`{"t":123,"mode":"scan","dist_cm":42,"heading_deg":180,"note":"scan"}`
+Expects JSON from micro:bit:
+```json
+{"dist_cm":42,"heading_deg":180}
+```

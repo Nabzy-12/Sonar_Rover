@@ -1,52 +1,113 @@
-# Sonar Rover (micro:bit + 4tronix MiniBit + sonar)
+# Sonar Rover 🤖
 
-This repo is a starter project for a MiniBit rover that can:
-- avoid obstacles
-- follow an object in front (distance keeping)
-- do a simple scan/sweep and stream readings to your PC
+**micro:bit + 4tronix MiniBit + Ultrasonic Sonar**
 
-## What you need
+A sonar-based rover that visualizes depth data like a LIDAR scanner.
 
-- micro:bit on a 4tronix MiniBit chassis
-- the optional ultrasonic sonar module installed
-- USB cable to your PC
+## 🎯 Features
 
-## Flash the rover firmware
+- **Real-time sonar scanning** - streams distance readings via USB serial
+- **Multiple visualizers** - radar, point cloud, and depth views
+- **Rover control modes** - manual, obstacle avoidance, object following
+- **Color-coded distance** - LEDs change color based on proximity
 
-The rover MakeCode project is the repo root (so it can be imported directly into MakeCode).
+## 📋 Requirements
 
-1. Open MakeCode: https://makecode.microbit.org/
-2. Import → Import URL → paste your GitHub repo URL
-3. Download → copy the `.hex` to the micro:bit drive
+- micro:bit v2 on a 4tronix MiniBit chassis
+- HC-SR04 ultrasonic sonar module (included with MiniBit)
+- USB cable to PC
+- Python 3.8+ with matplotlib, numpy, pyserial
 
-If MakeCode prompts to calibrate the compass (figure-8 motion), do it once — the scan visualizer uses compass heading.
+## 🚀 Quick Start
 
-## Rover controls
+### 1. Flash the Firmware
 
-- Button A: cycle modes (manual → avoid → follow → scan)
-- Button B: brake/stop
-- Buttons A+B: toggle scan on/off
+**Option A: Simple Scanner (recommended to start)**
+1. Open [MakeCode](https://makecode.microbit.org/)
+2. New Project → switch to **JavaScript** mode
+3. Add extension: `github:4tronix/MiniBit`
+4. Copy code from `firmware/fast_scanner.ts`
+5. Download and drag `.hex` to MICROBIT drive
 
-## USB serial control (manual)
+**Option B: Full Rover (advanced)**
+1. Open [MakeCode](https://makecode.microbit.org/)
+2. Import → Import URL → paste this GitHub repo URL
+3. Download and flash
 
-The rover listens for newline-terminated commands over the micro:bit serial port.
+### 2. Run the Visualizer
 
-- Drive: `F` `B` `L` `R` `STOP`
-- Modes: `MANUAL` `AVOID` `FOLLOW` `SCAN`
-- Tank drive: `T:<left>,<right>` where values are -100..100 (example: `T:60,40`)
+```powershell
+cd tools/visualizer
+pip install -r requirements.txt
+python radar.py --port COM3
+```
 
-## PC visualizer (optional)
+Or try other visualizers:
+- `radar.py` - Classic radar sweep display
+- `lidar.py` - LIDAR-style point cloud
+- `pointcloud.py` - 3D point cloud builder
+- `depth_scanner.py` - First-person depth view
 
-The visualizer reads JSON telemetry from USB serial and plots a simple 2D sweep.
+## 📁 Project Structure
 
-1. Go to [tools/visualizer](tools/visualizer)
-2. Create a venv + install deps:
-	- `py -m venv .venv`
-	- `./.venv/Scripts/Activate.ps1`
-	- `pip install -r requirements.txt`
-3. Run:
-	- `python visualize.py`
-	- or `python visualize.py --port COM5`
+```
+Sonar_Rover/
+├── main.ts              # Full rover firmware (MakeCode import)
+├── pxt.json             # MakeCode project config
+├── firmware/
+│   ├── fast_scanner.ts  # Simple fast scanning firmware
+│   ├── sonar_test.ts    # Basic sonar test
+│   └── controller/      # Optional radio controller
+├── tools/visualizer/
+│   ├── radar.py         # Radar-style visualizer
+│   ├── lidar.py         # LIDAR point cloud
+│   ├── pointcloud.py    # 3D point cloud builder
+│   └── requirements.txt # Python dependencies
+└── docs/                # Documentation
+```
+
+## 🎮 Controls (Full Rover Mode)
+
+| Button | Action |
+|--------|--------|
+| A | Cycle modes: Manual → Avoid → Follow → Scan |
+| B | Stop/Brake |
+| A+B | Toggle scanning |
+
+### Serial Commands
+- `F` `B` `L` `R` `STOP` - Drive commands
+- `MANUAL` `AVOID` `FOLLOW` `SCAN` - Mode switching
+- `T:<left>,<right>` - Tank drive (-100 to 100)
+
+## 🔧 Troubleshooting
+
+**No serial data?**
+- Make sure micro:bit is connected via USB
+- Check the COM port number in Device Manager
+- Try `--port COM3` (or your port)
+
+**MakeCode import fails?**
+- Use "Import URL" not "Open"
+- Make sure to add the MiniBit extension
+
+**VS Code shows TypeScript errors?**
+- These are expected - the type stubs are for IntelliSense only
+- MakeCode provides the real implementations
+
+## 📊 Serial Data Format
+
+The firmware sends JSON telemetry:
+```json
+{"dist_cm":42,"heading_deg":180}
+```
+
+## 🛠️ Status
+
+- ✅ Sonar hardware working
+- ✅ Serial communication working
+- ✅ Basic visualizers working
+- 🔄 Point cloud visualizer (WIP)
+- 📋 Autonomous scanning (TODO)
 
 ## Repo layout
 
