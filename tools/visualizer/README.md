@@ -1,23 +1,20 @@
 # Sonar Visualizers 📊
 
-Multiple visualization styles for sonar data from the micro:bit rover.
+Python visualizers for the sonar rover.
 
 ## Visualizers
 
 | Script | Description |
 |--------|-------------|
-| `radar.py` | Classic radar sweep - simple and reliable |
-| `lidar.py` | LIDAR-style point cloud view |
-| `pointcloud.py` | Accumulating 3D point cloud |
-| `depth_scanner.py` | First-person depth view |
-| `visualize.py` | Original simple scatter plot |
+| `sonar_radar.py` | Radar-style display - shows distance ahead with fading points |
+| `sonar_pulse.py` | Ambient pulse display - scanner sombre style visualization |
 
 ## Setup
 
 ```powershell
 # Create virtual environment
 py -m venv .venv
-./.venv/Scripts/Activate.ps1
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
@@ -25,21 +22,24 @@ pip install -r requirements.txt
 
 ```powershell
 # Radar view (recommended)
-python radar.py --port COM3
+python sonar_radar.py --port COM3
 
-# LIDAR point cloud
-python lidar.py --port COM3
-
-# 3D point cloud builder  
-python pointcloud.py --port COM3
-
-# Demo mode (no hardware)
-python radar.py --demo
+# Pulse display
+python sonar_pulse.py --port COM3
 ```
+
+## Controls
+
+| Key | Action |
+|-----|--------|
+| W/A/S/D | Drive the rover |
+| SPACE | Stop |
+| C | Clear points |
+| ESC | Quit |
 
 ## Serial Format
 
-Expects JSON from micro:bit:
+Expects JSON from micro:bit at 115200 baud:
 ```json
-{"dist_cm":42,"heading_deg":180}
+{"d":42,"a":180,"s":"FWD"}
 ```
